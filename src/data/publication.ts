@@ -16,7 +16,7 @@ export const publicationData: Publication[] = [
 
   {
     year: "2025",
-    conference: "Conference on Parsimony and Learning (CPAL 2025)",
+    conference: "Conference on Parsimony and Learning (CPAL)",
     title: "Meta ControlNet: Enhancing Task Adaptation via Meta Learning",
     authors: "Junjie Yang*, Jinze Zhao*, Peihao Wang, Zhangyang Wang, Yingbin Liang",
     paperUrl: "https://arxiv.org/abs/2312.01255",
