@@ -24,13 +24,6 @@ export const publicationData: Publication[] = [
   },
   {
     year: "2024",
-    conference: "Under Review",
-    title: "Sparse Mixture-of-Experts for Compositional Generalization: Empirical Evidence and Theoretical Foundations of Optimal Sparsity",
-    authors: "Jinze Zhao*, Peihao Wang, Junjie Yang, Ruisi Cai, Gaowen Liu, Jayanth Srinivasa, Ramana Rao Kompella, Yingbin Liang, Zhangyang Wang",
-
-  },
-  {
-    year: "2024",
     conference: "NeurIPS 2024 Workshop on Compositional Learning: Perspectives, Methods, and Paths Forward",
     title: "Enhancing Generalization in Sparse Mixture of Experts Models: The Case for Increased Expert Activation in Compositional Tasks",
     authors: "Jinze Zhao*",
