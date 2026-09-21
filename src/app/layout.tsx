@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Noto_Serif, PT_Serif } from "next/font/google";
 import "./globals.css";
 import { aboutMe } from "@/data/aboutme";
 import { customMetadata } from "@/data/title-description";
+import { blogConfig } from "@/data/blog";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -26,8 +27,10 @@ const ptSerif = PT_Serif({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(blogConfig.url),
   title: customMetadata.title || aboutMe.name,
   description: customMetadata.description || aboutMe.description,
+  alternates: { types: { "application/rss+xml": "/feed.xml" } },
   icons: {
     icon: "/favicon.ico",
   },

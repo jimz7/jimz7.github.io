@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="240" viewBox="0 0 960 240" role="img" aria-labelledby="title desc">
+  <title id="title">A linear model</title>
+  <desc id="desc">Features x flow into a weighted sum w transpose x and produce a prediction y.</desc>
+  <rect width="960" height="240" rx="12" fill="#f3f0e9"/>
+  <g fill="#fffcf8" stroke="#c9c1b2" stroke-width="2">
+    <rect x="45" y="70" width="220" height="100" rx="6"/>
+    <rect x="370" y="70" width="220" height="100" rx="6"/>
+    <rect x="695" y="70" width="220" height="100" rx="6"/>
+  </g>
+  <g stroke="#9c4d27" stroke-width="3" fill="none">
+    <path d="M280 120h70m-12-10 12 10-12 10"/>
+    <path d="M605 120h70m-12-10 12 10-12 10"/>
+  </g>
+  <g text-anchor="middle" fill="#26251f" font-family="Georgia, serif" font-size="25">
+    <text x="155" y="113">Features</text><text x="155" y="145" font-style="italic">x</text>
+    <text x="480" y="113">Weighted sum</text><text x="480" y="145" font-style="italic">wᵀx</text>
+    <text x="805" y="113">Prediction</text><text x="805" y="145" font-style="italic">ŷ</text>
+  </g>
+</svg>

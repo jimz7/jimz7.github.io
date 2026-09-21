@@ -63,8 +63,8 @@ export function ProfileSection({ aboutMe }: ProfileSectionProps) {
             <a
               href={aboutMe.blogUrl}
               className="group inline-flex items-center gap-2 text-xs text-zinc-500 hover:text-zinc-900 transition-colors duration-300"
-              target="_blank"
-              rel="noopener noreferrer"
+              target={aboutMe.blogUrl.startsWith("/") ? undefined : "_blank"}
+              rel={aboutMe.blogUrl.startsWith("/") ? undefined : "noopener noreferrer"}
             >
               <ArrowUpRight
                 size={12}
