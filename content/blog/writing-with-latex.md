@@ -138,7 +138,7 @@ Start `npm run dev` to preview it at `/blog/my-first-note/`.
 
 When the post is ready, change `draft: true` to `draft: false` and use a date
 on or before the publishing day. Production builds exclude drafts and
-future-dated posts from pages, search, RSS, and the sitemap.
+future-dated posts from pages, the blog list, RSS, and the sitemap.
 
 This notebook uses KaTeX's supported math syntax. Use `$...$` and `$$...$$`;
 whole `.tex` documents, arbitrary packages, automatic `\label` / `\ref`

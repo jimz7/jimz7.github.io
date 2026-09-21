@@ -45,7 +45,6 @@ export function parsePost(source: string, slug: string): Post {
     tags: [...new Set((tags as string[]).map((tag) => tag.trim()))],
     draft: data.draft === true,
     readingMinutes: Math.max(1, Math.ceil(content.trim().split(/\s+/u).length / 200)),
-    searchText: content,
     content,
   };
 }

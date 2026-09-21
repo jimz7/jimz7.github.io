@@ -11,18 +11,10 @@ export const metadata: Metadata = {
 };
 
 export default function BlogPage() {
-  const posts = getPosts().map((post) => ({
-    slug: post.slug, title: post.title, description: post.description,
-    date: post.date, updated: post.updated, tags: post.tags, draft: post.draft,
-    readingMinutes: post.readingMinutes, searchText: post.searchText,
-  }));
+  const posts = getPosts();
   return (
     <div className="blog-index">
-      <header className="blog-intro">
-        <p className="blog-eyebrow">THE NOTEBOOK</p>
-        <h1>Research notes<span>.</span></h1>
-        <p>{blogConfig.description}</p>
-      </header>
+      <h1 className="sr-only">Blog</h1>
       <BlogIndex posts={posts} />
     </div>
   );

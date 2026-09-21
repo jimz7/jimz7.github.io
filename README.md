@@ -46,7 +46,7 @@ draft: true
 - `tags` is an optional list of strings; `updated` is optional.
 - `draft` is an optional boolean (defaults to `false`). New posts start as drafts.
 - Drafts and future-dated posts appear in `npm run dev` with a preview notice.
-- Production excludes them from article pages, the index/search, RSS, and sitemap.
+- Production excludes them from article pages, the blog list, RSS, and sitemap.
 - To publish, set `draft: false` and a date on or before today, then merge into `main`.
 - Future dates use UTC. They do **not** schedule a build: push again or manually
   run the GitHub Actions workflow on/after that date.
@@ -168,9 +168,9 @@ Long equations, code blocks, and tables scroll horizontally on narrow screens.
 - `src/components/site-navigation.tsx`: shared About / Blog navigation.
 - `src/app/blog/blog.css`: notebook typography, colors, and responsive layout.
 
-`/blog/` lists posts newest first and searches titles, descriptions, tags, and
-post text. Tag buttons filter the list. Reading time, author, dates, a table of
-contents, and older/newer navigation are generated automatically.
+`/blog/` is a simple list of posts, newest first, with titles, dates, reading
+times, and short descriptions. Article pages include the author, tags, a table
+of contents, and older/newer navigation.
 `/feed.xml` is a summary RSS feed. `/sitemap.xml` and `/robots.txt` are generated.
 
 ## Validate and publish

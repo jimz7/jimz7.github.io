@@ -1,5 +1,5 @@
 export const blogConfig = {
-  title: "Research notes",
+  title: "Blog",
   description: "Notes on machine learning, mathematics, and ideas worth understanding.",
   url: "https://jimz7.github.io",
 };

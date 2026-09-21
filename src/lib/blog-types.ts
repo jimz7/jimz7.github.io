@@ -7,7 +7,6 @@ export interface PostSummary {
   tags: string[];
   draft: boolean;
   readingMinutes: number;
-  searchText: string;
 }
 
 export interface Post extends PostSummary {
