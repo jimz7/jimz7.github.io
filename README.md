@@ -164,6 +164,8 @@ Long equations, code blocks, and tables scroll horizontally on narrow screens.
 - `src/data/aboutme.ts`: profile information and homepage Blog link.
 - `src/data/blog.ts`: notebook description, canonical site URL, shared math macros.
 - `src/data/section-order.ts` and the other `src/data/` files: academic homepage.
+- `src/app/about.css`: the minimal, single-column About page.
+- `src/components/site-navigation.tsx`: shared About / Blog navigation.
 - `src/app/blog/blog.css`: notebook typography, colors, and responsive layout.
 
 `/blog/` lists posts newest first and searches titles, descriptions, tags, and
