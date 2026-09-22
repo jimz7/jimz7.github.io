@@ -19,13 +19,11 @@ export interface AboutMe {
 
 export const aboutMe: AboutMe = {
   name: "Jinze Zhao",
-  title: "M.S. student",
-  institution: "University of Texas at Austin",
+  title: "PhD student",
+  institution: "UC San Diego",
   // Note that links work in the description
   description:
-  "I’m a graduate student pursuing M.S. in <a href='https://www.ece.utexas.edu/'>Electrical and Computer Engineering</a> at <a href='https://www.utexas.edu/'>the University of Texas at Austin</a>. Previously, I received B.S. in Electrical and Computer Engineering (with Honors) and B.S. in Mathematics from UT Austin.<br><br>My research focuses on Machine Learning, especially understanding the theoretical foundations and improving the generalization of models, such as diffusion models and mixture-of-experts models." ,
-    // Currently, I work as a Research Assistant at <a href='https://vita-group.github.io/group.html/'>VITA</a> lab.",
-    // I'm a final-year <a href='https://www.stanford.edu'>PhD candidate</a> working at the intersection of causal inference and machine learning. My research focuses on developing robust, interpretable systems that can reason about cause and effect in complex environments.",
+  "I’m a PhD student in the <a href='https://ece.ucsd.edu/'>Department of Electrical and Computer Engineering</a> at <a href='https://ucsd.edu/'>UC San Diego</a>. I received a B.S. in Electrical and Computer Engineering (with Honors) and a B.S. in Mathematics from the University of Texas at Austin.<br><br>My research focuses on machine learning, especially understanding the theoretical foundations and improving the generalization of models, such as diffusion models and mixture-of-experts models.",
   email: "jz24694@utexas.edu",
   // imageUrl:
   //   "/images/profile.png",
