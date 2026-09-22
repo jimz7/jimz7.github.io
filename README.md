@@ -1,4 +1,4 @@
-# Jinze Zhao — personal website and research notes
+# personal website and research notes
 
 An academic homepage and a Markdown + LaTeX blog, built with Next.js and exported
 as a static website for [GitHub Pages](https://jimz7.github.io/).
