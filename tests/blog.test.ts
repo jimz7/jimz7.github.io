@@ -57,6 +57,16 @@ test("supports footnote backlinks, tables, highlighted code, and image alt text"
   assert.match(html, /alt="Diagram"/);
 });
 
+test("explicit manuscript anchors support references without allowing raw HTML", async () => {
+  const { html, toc } = await renderMarkdown("## A result {#theorem-result}\n\n{#eq-result}\n\n$$x=1$$\n\n[Equation (1)](#section-eq-result)\n\n## Another result {#theorem-result}\n\n{#bad\" onclick=\"alert(1)}");
+  assert.deepEqual(toc.map((entry) => entry.id), ["section-theorem-result", "section-theorem-result-1"]);
+  assert.equal(toc[0].title, "A result");
+  assert.match(html, /<span id="section-eq-result" class="blog-anchor"><\/span>/);
+  assert.match(html, /href="#section-eq-result"/);
+  assert.doesNotMatch(html, /id="bad"/);
+  assert.doesNotMatch(html, /<[^>]+ onclick=/);
+});
+
 test("raw HTML is not executed or passed through", async () => {
   const { html } = await renderMarkdown("<script>alert('bad')</script>\n\n## Safe content");
   assert.doesNotMatch(html, /<script>/);

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 240" role="img" aria-labelledby="title desc">
+  <title id="title">Proposed mechanism for counterexample-oriented outcomes</title>
+  <desc id="desc">Claim and prompt leads to candidate violation features, then attention routing, then tactic and certificate. A local or formal verifier returns selection and learning feedback to candidate violation features. These causal links are proposed, not established.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#285b8a"/></marker>
+  </defs>
+  <g fill="#e8f1fa" stroke="#285b8a" stroke-width="1.5">
+    <rect x="12" y="24" width="190" height="70" rx="7"/>
+    <rect x="240" y="24" width="190" height="70" rx="7"/>
+    <rect x="468" y="24" width="190" height="70" rx="7"/>
+    <rect x="696" y="24" width="190" height="70" rx="7"/>
+    <rect x="447" y="151" width="232" height="60" rx="7"/>
+  </g>
+  <g fill="none" stroke="#285b8a" stroke-width="2" marker-end="url(#arrow)">
+    <path d="M202 59H232"/><path d="M430 59H460"/><path d="M658 59H688"/>
+    <path d="M791 94V181H687"/><path d="M447 181H335V102"/>
+  </g>
+  <g fill="#26251f" font-family="Georgia, serif" font-size="19" text-anchor="middle">
+    <text x="107" y="52">Claim and<tspan x="107" dy="25">prompt</tspan></text>
+    <text x="335" y="52">Candidate<tspan x="335" dy="25">violation features</tspan></text>
+    <text x="563" y="52">Attention<tspan x="563" dy="25">routing</tspan></text>
+    <text x="791" y="52">Tactic and<tspan x="791" dy="25">certificate</tspan></text>
+    <text x="563" y="176">Local or formal<tspan x="563" dy="24">verifier</tspan></text>
+    <text x="329" y="217" font-size="16">selection / learning</text>
+  </g>
+</svg>

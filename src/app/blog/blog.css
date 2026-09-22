@@ -47,6 +47,7 @@
 .blog-prose { font-family: var(--font-pt-serif), Georgia, serif; font-size: 17px; line-height: 1.85; overflow-wrap: break-word; }
 .blog-prose > * { margin: 1.25em 0; }
 .blog-prose > :first-child { margin-top: 0; }
+.blog-prose .blog-anchor { display: block; height: 0; margin: 0; scroll-margin-top: 28px; }
 .blog-prose h1, .blog-prose h2, .blog-prose h3, .blog-prose h4 { line-height: 1.35; font-weight: 700; scroll-margin-top: 28px; letter-spacing: -.025em; }
 .blog-prose h1, .blog-prose h2 { font-size: 28px; margin-top: 2.1em; }
 .blog-prose h3 { font-size: 22px; margin-top: 1.8em; }

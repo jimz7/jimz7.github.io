@@ -64,9 +64,15 @@ second `#` heading is unnecessary. Heading links have a `section-` prefix, e.g.
 `## A small derivation` becomes `#section-a-small-derivation`.
 Duplicate headings get `-1`, `-2`, and so on.
 
-The included [sample post](content/blog/writing-with-latex.md) is both an
-authoring reference and a working rendering example. You can remove it or
-set `draft: true` when you have your own posts.
+The [writing guide](docs/writing-with-latex.md) demonstrates the supported
+Markdown and LaTeX syntax. It stays outside the blog's published content.
+
+For manuscript cross-references, `## A result {#result}` sets the heading's
+link to `#section-result`. A standalone `{#eq-result}` line creates an
+invisible anchor before an equation, table, figure, or reference; link to it
+with `[Equation (1)](#section-eq-result)`. IDs use lowercase letters, digits,
+and hyphens, start with a letter, and receive the same `section-` prefix.
+Repeated IDs receive numeric suffixes. This does not enable raw HTML.
 
 ### Add a paper link
 
