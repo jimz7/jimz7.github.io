@@ -1,115 +1,255 @@
-# research-website-template
+# Jinze Zhao — personal website and research notes
 
-This is a React + Next.js template meant for research websites. See a [demo of the template here](https://tovacinni.github.io/research-website-template/). My own [personal website](https://tovacinni.github.io) is also built with the same template.
+An academic homepage and a Markdown + LaTeX blog, built with Next.js and exported
+as a static website for [GitHub Pages](https://jimz7.github.io/).
 
-In practice it could probably be used by anyone.
+The homepage data stays in `src/data/`. Blog posts live in `content/blog/`;
+no React code is needed to write a post.
 
-It is meant to be customizeable, all through modifying the `src/data` - which have arrays of objects that are used to generate the website.
+The Publications section lists accepted conference and workshop papers in
+`src/data/publication.ts`, using the accepted venue's year. Research preprints
+appear alongside articles in the blog as direct title links to the papers.
+Their dates follow the original arXiv submissions.
 
-For example, `src/data/publication.ts` contains an array like:
+## Quick start
 
-```typescript
-export const publicationData: Publication[] = [
-  {
-    year: "2023",
-    conference: "International Conference on Machine Learning (ICML)",
-    title: "Robust Causal Discovery Under Distribution Shift",
-    authors: "Jane Smith, Xue Chen, Sarah Johnson",
-    paperUrl: "https://arxiv.org/abs/2302.13095",
-    codeUrl: "https://github.com/jsmith/robust-causal-discovery",
-  },
-];
-```
-
-To update your website, you can simply add objects to the array.
-
-The schemas are defined in the same files, and many fields are optional for flexibility:
-
-```typescript
-export interface Publication {
-  year: string;
-  conference: string;
-  title: string;
-  authors: string;
-  paperUrl?: string;
-  codeUrl?: string;
-  bibtex?: string;
-  tldr?: string;
-  imageUrl?: string;
-  award?: string;
-}
-```
-
-Any field with a `?` at the end is optional. Filling them in will create the UI components corresponding to them automatically.
-
-You can also change the order of the sections in `src/data/section-order.ts`, and if you want full customization you can just edit the React components in `src/components`.
-
-This project was birthed from annoyance over HTML + CSS templates- such as the very popular [Jon Barron template](https://github.com/jonbarron/website). The Jon Barron template is amazing because it is simple & complete which is why it's so popular- but over time, maintenance becomes difficult from the amount of duplicate code it creates (the Jon Barron index is now over 4000 lines of code). This is meant to be a much more minimal (to maintain) alternative (and was a good way to spend a few hours to build over holiday weekend).
-
-## Prerequisites
-
-First, install Node.js and npm through the [Node.js official website](https://nodejs.org/).
-
-Verify installation by running:
+Use Node.js 22 or newer (the GitHub Actions workflow uses Node 22).
 
 ```bash
-node --version
-npm --version
+npm ci
+npm run dev
 ```
 
-## Installation
+Open [localhost:3000](http://localhost:3000) for the homepage or
+[localhost:3000/blog/](http://localhost:3000/blog/) for the notebook.
 
-1. Fork the repository
+## Write a post
 
-2. Clone the repository
+```bash
+npm run new-post -- my-first-note
+```
 
-   ```bash
-   git clone [your-repository-url]
-   cd [repository-name]
-   ```
+This creates `content/blog/my-first-note.md` as a draft. It refuses to
+overwrite an existing file. The filename becomes the permanent URL:
+`/blog/my-first-note/`. Keep the filename unchanged when editing the title.
 
-3. Install dependencies
+Each file starts with YAML front matter:
 
-   Inside the repository, run:
+```yaml
+---
+title: "Understanding a model"
+date: "2026-09-21"
+updated: "2026-09-22" # Optional; on or after date
+draft: true
+---
+```
 
-   ```bash
-   npm install
-   ```
+- `title` and `date` are required.
+- Dates use `YYYY-MM-DD`. Quote them as shown.
+- `updated` is optional. Optional `description` and `tags` fields are used only
+  for search/social metadata and RSS, never displayed on the website.
+- `draft` is an optional boolean (defaults to `false`). New posts start as drafts.
+- Drafts and future-dated posts appear in `npm run dev` with a preview notice.
+- Production excludes them from article pages, the blog list, RSS, and sitemap.
+- To publish, set `draft: false` and a date on or before today, then merge into `main`.
+- Future dates use UTC. They do **not** schedule a build: push again or manually
+  run the GitHub Actions workflow on/after that date.
+- Draft Markdown committed to this public repository is visible on GitHub even
+  though it is excluded from the published website.
 
-## Running the Application
+Use `##` for sections and `###` for subsections. These generate stable heading
+IDs for links. The page title comes from front matter, so a
+second `#` heading is unnecessary. Heading links have a `section-` prefix, e.g.
+`## A small derivation` becomes `#section-a-small-derivation`.
+Duplicate headings get `-1`, `-2`, and so on.
 
-1. To start the development server, run (in the repository directory):
+The [writing guide](docs/writing-with-latex.md) demonstrates the supported
+Markdown and LaTeX syntax. It stays outside the blog's published content.
 
-   ```bash
-   npm run dev
-   ```
+For manuscript cross-references, `## A result {#result}` sets the heading's
+link to `#section-result`. A standalone `{#eq-result}` line creates an
+invisible anchor before an equation, table, figure, or reference; link to it
+with `[Equation (1)](#section-eq-result)`. IDs use lowercase letters, digits,
+and hyphens, start with a letter, and receive the same `section-` prefix.
+Repeated IDs receive numeric suffixes. This does not enable raw HTML.
 
-2. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Add a paper link
 
-## Deploying onto GitHub Pages
+Use the same folder for preprints that should link directly to the original
+paper. An `externalUrl` entry contains front matter only:
 
-1. Fork or clone this repo and push to your own repository at `[your-github-username].github.io`.
+```yaml
+---
+title: "Paper title"
+date: "2026-09-10"
+externalUrl: "https://arxiv.org/abs/2609.11784"
+draft: false
+---
+```
 
-2. In your repository settings, ensure the repository name matches `[your-github-username].github.io` if you want it to be your main GitHub Pages site.
+These entries display a date and clickable title, with no summary, reading time,
+or article page. The URL must be an absolute HTTP or HTTPS address. Their RSS
+entries link directly to the paper, and they do not create sitemap entries.
+Draft and future-date rules apply to both articles and paper links.
+Omit `externalUrl` to write a regular Markdown and LaTeX article with a
+body.
 
-3. Push your changes to the main branch.
+## LaTeX mathematics
 
-4. Go to the GitHub page for your repository and go to `Settings` then `Pages`. If you set Source to be `GitHub Actions`, it should suggest you a build script for Next.js.
+Math is rendered at build time with `remark-math` and `rehype-katex`.
+KaTeX HTML, MathML, CSS, and fonts are included in the exported site.
+Equations work without browser JavaScript or a runtime CDN request.
 
-5. Commit the build script and see things building.
+Inline math:
 
-Your site should now be live at `https://[your-github-username].github.io/`.
+```markdown
+For $x \in \R^d$, let $f(x) = \norm{x}_2^2$.
+```
 
-## Deploying to your own domain
+Displayed and aligned math (put each `$$` delimiter on its own line):
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/) from the creators of Next.js.
+```latex
+$$
+\begin{aligned}
+\mathcal{L}(\theta)
+  &= \E_{x \sim p}[\ell(\theta; x)] \\
+\nabla_\theta \mathcal{L}(\theta)
+  &= \E_{x \sim p}[\nabla_\theta \ell(\theta; x)].
+\end{aligned}
+\tag{1}
+$$
+```
 
-1. Create a [Vercel account](https://vercel.com/signup) if you haven't already
-2. Push your code to a Git repository (GitHub, GitLab, or Bitbucket)
-3. Import your repository on Vercel
-4. Vercel will automatically detect Next.js and configure the build settings
-5. Click "Deploy"
+Matrices and cases:
 
-## Contributing
+```latex
+$$
+A = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix},
+\qquad
+f(x) = \begin{cases} x^2, & x \ge 0 \\ 0, & x < 0. \end{cases}
+$$
+```
 
-Feel free to drop a pull request whenever!
+Shared macros are in `src/data/blog.ts`:
+
+| Macro | Expansion |
+| --- | --- |
+| `\R` | `\mathbb{R}` |
+| `\N` | `\mathbb{N}` |
+| `\E` | `\mathbb{E}` |
+| `\vect{x}` | `\boldsymbol{x}` |
+| `\norm{x}` | `\left\lVert x\right\rVert` |
+
+Use doubled backslashes when defining macros in TypeScript. Math in Markdown
+uses ordinary single backslashes. Macros defined within a post do not leak into
+other posts.
+
+Use `\tag{1}` for manual equation numbers and link to the containing section
+with `[Equation (1)](#section-a-small-derivation)`. Escape currency dollars
+as `\$5` so that two prices are not mistaken for inline math. Code spans and
+fenced code blocks are never typeset.
+
+This supports [KaTeX's LaTeX math functions](https://katex.org/docs/supported.html),
+including aligned equations, matrices, cases, sums, integrals, and custom macros.
+It is a Markdown blog, not a full TeX document compiler: arbitrary
+`\usepackage` commands, `.tex` document imports, automatic `\label` / `\ref` /
+`\eqref` numbering, and BibTeX processing are not supported. Use dollar
+delimiters rather than `\(...\)` or `\[...\]`.
+
+Unsupported or malformed math fails tests/builds with the post name, so broken
+equations do not silently reach production.
+
+## Code, figures, tables, and references
+
+Specify a language after a code fence (`python`, `typescript`, `bash`,
+`latex`, etc.) for syntax highlighting. Unknown languages remain readable as
+plain code.
+
+Store images under `public/images/blog/` and use an absolute site path:
+
+```markdown
+![Meaningful description for readers](/images/blog/my-figure.png)
+*Figure 1. A short caption.*
+```
+
+Use Markdown tables and footnotes:
+
+```markdown
+| Quantity | Definition |
+| --- | --- |
+| Norm | $\norm{x}_2$ |
+
+A useful detail.[^detail]
+
+[^detail]: The supporting explanation.
+```
+
+For references, add a `## References` section with numbered links to papers,
+or cite via Markdown footnotes. Raw HTML and executable MDX/JSX are deliberately
+not enabled. Use Markdown images, links, code fences, and math instead.
+
+Long equations, code blocks, and tables scroll horizontally on narrow screens.
+
+## Site settings
+
+- `src/data/aboutme.ts`: profile information and homepage Blog link.
+- `src/data/blog.ts`: canonical site URL, citation author, and shared math macros.
+- `src/data/section-order.ts` and the other `src/data/` files: academic homepage.
+- `src/app/about.css`: the minimal, single-column About page.
+- `src/components/site-navigation.tsx`: shared About / Blog navigation.
+- `src/app/blog/blog.css`: notebook typography, colors, and responsive layout.
+
+`/blog/` is a simple list of articles and paper links, newest first. Only
+articles show reading times. Article pages use a centered column with author/date
+metadata, the post body, a citation section, and older/newer navigation. There are
+no summary decks, topic labels, download controls, or contents panels.
+Every article automatically includes a formatted reference and BibTeX citation
+using its original publication date and canonical URL. Set `citationAuthor`
+(surname first) and `citationKeyPrefix` in `src/data/blog.ts` when changing authors.
+`/feed.xml` is an RSS feed. `/sitemap.xml` and `/robots.txt` are generated.
+
+## Validate and publish
+
+```bash
+npm run lint
+npm test
+npm run build
+npm run check:export
+```
+
+The build also checks TypeScript. `npm run typecheck` can run that check
+separately. Unit tests cover math, escaped dollars, code, heading IDs, footnotes,
+metadata, draft filtering, RSS escaping, and the draft creation command.
+
+`npm run build` writes a complete static site to `out/`. Preview the actual
+export with any static file server, for example:
+
+```bash
+python -m http.server 3000 --directory out
+```
+
+This project uses static export, so `next start` is not used.
+
+The existing GitHub Pages workflow now validates pull requests as well as
+`main`. Only successful builds of `main` deploy. In GitHub repository
+**Settings → Pages**, the source should be **GitHub Actions**.
+Merge a reviewed pull request into `main` to publish; the Actions tab shows
+the build/deployment status.
+
+`next.config.ts` explicitly enables static export, trailing slashes, and
+unoptimized images. Local builds and GitHub Actions therefore generate the same
+route structure, including direct article URLs. No database or Node server is
+required in production.
+
+This repository targets the root site `https://jimz7.github.io/`. For a custom
+domain, update `blogConfig.url` and configure GitHub Pages. Hosting under a
+repository subpath would additionally require a Next.js `basePath` and adapting
+the root-relative image/feed links.
+
+## Credits
+
+The academic homepage is based on
+[tovacinni/research-website-template](https://github.com/tovacinni/research-website-template).
+The notebook's focus on readable technical notes was inspired by
+[Lilian Weng's Lil'Log](https://lilianweng.github.io/); its content and theme are
+not copied. See [LICENSE](LICENSE).

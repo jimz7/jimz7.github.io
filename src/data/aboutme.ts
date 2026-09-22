@@ -19,21 +19,18 @@ export interface AboutMe {
 
 export const aboutMe: AboutMe = {
   name: "Jinze Zhao",
-  title: "M.S. student",
-  institution: "University of Texas at Austin",
-  // Note that links work in the description
+  title: "PhD student",
+  institution: "UC San Diego",
   description:
-  "I’m a graduate student pursuing M.S. in <a href='https://www.ece.utexas.edu/'>Electrical and Computer Engineering</a> at <a href='https://www.utexas.edu/'>the University of Texas at Austin</a>. Previously, I received B.S. in Electrical and Computer Engineering (with Honors) and B.S. in Mathematics from UT Austin.<br><br>My research focuses on Machine Learning, especially understanding the theoretical foundations and improving the generalization of models, such as diffusion models and mixture-of-experts models." ,
-    // Currently, I work as a Research Assistant at <a href='https://vita-group.github.io/group.html/'>VITA</a> lab.",
-    // I'm a final-year <a href='https://www.stanford.edu'>PhD candidate</a> working at the intersection of causal inference and machine learning. My research focuses on developing robust, interpretable systems that can reason about cause and effect in complex environments.",
-  email: "jz24694@utexas.edu",
+  "I’m a PhD student in the Department of Electrical and Computer Engineering at UC San Diego. Before joining UC San Diego, I received my master's and bachelor's degree in Electrical and Computer Engineering from UT Austin.<br><br>My research focuses on machine learning, especially understanding the theoretical foundations and improving the generalization of models, such as diffusion models and mixture-of-experts models.",
+  email: "jiz419@ucsd.edu",
   // imageUrl:
   //   "/images/profile.png",
   googleScholarUrl: "https://scholar.google.com/citations?user=fIIlS-0AAAAJ",
   githubUsername: "jimz7",
   linkedinUsername: "jinze-zhao",
   // twitterUsername: "janesmith",
-  // blogUrl: "https://",
+  blogUrl: "/blog/",
   // cvUrl: "https://",
   // institutionUrl: "https://www.stanford.edu",
   // altName: "",

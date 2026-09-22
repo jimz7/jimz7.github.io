@@ -25,3 +25,13 @@ body {
 .sans {
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
+
+.site-navigation { display: flex; justify-content: flex-end; align-items: center; gap: 24px; font-size: 15px; }
+.site-navigation > a { color: #26251f; }
+.site-navigation > a[aria-current="page"]:not(.site-blog-link) { text-decoration: underline; text-underline-offset: 6px; }
+.site-navigation > .site-blog-link { display: inline-flex; align-items: center; gap: 12px; padding: 10px 18px; border-radius: 4px; background: #26251f; color: #fffcf8; font-weight: 500; }
+.site-navigation > .site-blog-link:hover { background: #47443b; color: #fffcf8; }
+.site-navigation a:focus-visible { outline: 2px solid #9c4d27; outline-offset: 5px; }
+.site-footer { background: #fffcf8; color: #737166; }
+.site-footer-inner { max-width: 820px; padding: 24px 30px; margin: auto; border-top: 1px solid #e6e1d7; font-family: var(--font-geist-sans), sans-serif; font-size: 11px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; }
+.site-footer a { text-decoration: underline; text-underline-offset: 3px; }
