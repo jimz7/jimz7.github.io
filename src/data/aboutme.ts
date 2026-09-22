@@ -21,10 +21,9 @@ export const aboutMe: AboutMe = {
   name: "Jinze Zhao",
   title: "PhD student",
   institution: "UC San Diego",
-  // Note that links work in the description
   description:
-  "I’m a PhD student in the <a href='https://ece.ucsd.edu/'>Department of Electrical and Computer Engineering</a> at <a href='https://ucsd.edu/'>UC San Diego</a>. I received a B.S. in Electrical and Computer Engineering (with Honors) and a B.S. in Mathematics from the University of Texas at Austin.<br><br>My research focuses on machine learning, especially understanding the theoretical foundations and improving the generalization of models, such as diffusion models and mixture-of-experts models.",
-  email: "jz24694@utexas.edu",
+  "I’m a PhD student in the Department of Electrical and Computer Engineering at UC San Diego. I earned my M.S. in Electrical and Computer Engineering at the University of Texas at Austin, where I also received a B.S. in Electrical and Computer Engineering (with Honors) and a B.S. in Mathematics.<br><br>My research focuses on machine learning, especially understanding the theoretical foundations and improving the generalization of models, such as diffusion models and mixture-of-experts models.",
+  email: "jiz419@ucsd.edu",
   // imageUrl:
   //   "/images/profile.png",
   googleScholarUrl: "https://scholar.google.com/citations?user=fIIlS-0AAAAJ",
