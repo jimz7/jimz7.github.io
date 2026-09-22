@@ -1,8 +1,6 @@
 ---
 title: "Writing research notes with LaTeX"
-description: "A working example of equations, code, figures, and references in this notebook."
 date: "2026-09-21"
-tags: ["Writing", "Mathematics"]
 draft: false
 ---
 
@@ -57,7 +55,7 @@ $\vect{w}^{\star} = (X^\top X + n\lambda I)^{-1}X^\top\vect{y}$.
 Use `\tag{1}` to label a displayed equation. Refer back to
 [Equation (1)](#section-a-small-derivation) with an ordinary Markdown link
 to its section. Section links use a `section-` prefix and lowercase, hyphenated
-headings. The table of contents contains the exact links.
+headings, so `## A small derivation` becomes `#section-a-small-derivation`.
 
 ```latex
 $$
@@ -133,12 +131,14 @@ The same syntax works for linking papers, code, and related posts.
 ## Writing your own post
 
 Run `npm run new-post -- my-first-note` to create a draft. Edit the title,
-description, date, tags, and Markdown body in `content/blog/my-first-note.md`.
+date, and Markdown body in `content/blog/my-first-note.md`.
 Start `npm run dev` to preview it at `/blog/my-first-note/`.
 
 When the post is ready, change `draft: true` to `draft: false` and use a date
 on or before the publishing day. Production builds exclude drafts and
 future-dated posts from pages, the blog list, RSS, and the sitemap.
+
+Each article automatically ends with a formatted citation and a BibTeX entry.
 
 This notebook uses KaTeX's supported math syntax. Use `$...$` and `$$...$$`;
 whole `.tex` documents, arbitrary packages, automatic `\label` / `\ref`

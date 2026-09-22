@@ -41,7 +41,7 @@ export function parsePost(source: string, slug: string): Post {
       fail("externalUrl must be an absolute HTTP or HTTPS URL without credentials.");
     }
   }
-  const description = externalUrl && data.description === undefined ? "" : requiredText("description");
+  const description = data.description === undefined ? "" : requiredText("description");
   const date = dateValue("date");
   const updated = data.updated === undefined ? undefined : dateValue("updated");
   if (updated && updated < date) fail("updated must be on or after date.");

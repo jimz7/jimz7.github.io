@@ -14,12 +14,6 @@ export interface Post extends PostSummary {
   content: string;
 }
 
-export interface TocEntry {
-  id: string;
-  title: string;
-  depth: number;
-}
-
 export function formatPostDate(date: string) {
   return new Date(date + "T00:00:00Z").toLocaleDateString("en-US", {
     month: "long",

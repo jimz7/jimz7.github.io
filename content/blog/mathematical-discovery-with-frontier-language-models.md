@@ -1,12 +1,8 @@
 ---
 title: "Mathematical Discovery with Frontier Language Models: Progress, Practice, and Counterexample Search"
-description: "A survey of frontier models in mathematical research, with an analysis of counterexample search, verification, and the evidence needed to distinguish strategy from preference."
 date: "2026-09-22"
-tags: ["Mathematics", "Language models"]
 draft: false
 ---
-
-[Download the LaTeX source and evidence](/downloads/mathematical-discovery-with-frontier-language-models-source.zip).
 
 ## Abstract {#abstract}
 

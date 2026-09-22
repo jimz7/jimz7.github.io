@@ -14,7 +14,6 @@ export function BlogIndex({ posts }: { posts: PostSummary[] }) {
           <h2>{post.externalUrl
             ? <a href={post.externalUrl}>{post.title}</a>
             : <Link href={"/blog/" + post.slug + "/"}>{post.title}</Link>}</h2>
-          {!post.externalUrl && post.description && <p>{post.description}</p>}
         </article>
       ))}
       {posts.length === 0 && <p className="blog-empty">No posts yet.</p>}

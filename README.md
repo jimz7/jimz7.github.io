@@ -38,17 +38,16 @@ Each file starts with YAML front matter:
 ```yaml
 ---
 title: "Understanding a model"
-description: "A short summary for the blog index, search engines, and RSS."
 date: "2026-09-21"
 updated: "2026-09-22" # Optional; on or after date
-tags: ["Machine learning", "Theory"]
 draft: true
 ---
 ```
 
-- `title`, `description`, and `date` are required.
+- `title` and `date` are required.
 - Dates use `YYYY-MM-DD`. Quote them as shown.
-- `tags` is an optional list of strings; `updated` is optional.
+- `updated` is optional. Optional `description` and `tags` fields are used only
+  for search/social metadata and RSS, never displayed on the website.
 - `draft` is an optional boolean (defaults to `false`). New posts start as drafts.
 - Drafts and future-dated posts appear in `npm run dev` with a preview notice.
 - Production excludes them from article pages, the blog list, RSS, and sitemap.
@@ -58,8 +57,8 @@ draft: true
 - Draft Markdown committed to this public repository is visible on GitHub even
   though it is excluded from the published website.
 
-Use `##` for sections and `###` for subsections. These generate the table of
-contents and stable heading IDs. The page title comes from front matter, so a
+Use `##` for sections and `###` for subsections. These generate stable heading
+IDs for links. The page title comes from front matter, so a
 second `#` heading is unnecessary. Heading links have a `section-` prefix, e.g.
 `## A small derivation` becomes `#section-a-small-derivation`.
 Duplicate headings get `-1`, `-2`, and so on.
@@ -93,7 +92,7 @@ or article page. The URL must be an absolute HTTP or HTTPS address. Their RSS
 entries link directly to the paper, and they do not create sitemap entries.
 Draft and future-date rules apply to both articles and paper links.
 Omit `externalUrl` to write a regular Markdown and LaTeX article with a
-description and body.
+body.
 
 ## LaTeX mathematics
 
@@ -194,16 +193,20 @@ Long equations, code blocks, and tables scroll horizontally on narrow screens.
 ## Site settings
 
 - `src/data/aboutme.ts`: profile information and homepage Blog link.
-- `src/data/blog.ts`: notebook description, canonical site URL, shared math macros.
+- `src/data/blog.ts`: canonical site URL, citation author, and shared math macros.
 - `src/data/section-order.ts` and the other `src/data/` files: academic homepage.
 - `src/app/about.css`: the minimal, single-column About page.
 - `src/components/site-navigation.tsx`: shared About / Blog navigation.
 - `src/app/blog/blog.css`: notebook typography, colors, and responsive layout.
 
 `/blog/` is a simple list of articles and paper links, newest first. Only
-articles show reading times and descriptions. Article pages include the author, tags, a table
-of contents, and older/newer navigation.
-`/feed.xml` is a summary RSS feed. `/sitemap.xml` and `/robots.txt` are generated.
+articles show reading times. Article pages use a centered column with author/date
+metadata, the post body, a citation section, and older/newer navigation. There are
+no summary decks, topic labels, download controls, or contents panels.
+Every article automatically includes a formatted reference and BibTeX citation
+using its original publication date and canonical URL. Set `citationAuthor`
+(surname first) and `citationKeyPrefix` in `src/data/blog.ts` when changing authors.
+`/feed.xml` is an RSS feed. `/sitemap.xml` and `/robots.txt` are generated.
 
 ## Validate and publish
 

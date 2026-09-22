@@ -11,10 +11,8 @@ import { visit } from "unist-util-visit";
 import { toString } from "mdast-util-to-string";
 import type { Root } from "mdast";
 import { mathMacros } from "../data/blog";
-import type { TocEntry } from "./blog-types";
 
 export async function renderMarkdown(content: string, sourceName = "post") {
-  const toc: TocEntry[] = [];
   const slugger = new GithubSlugger();
   const result = await unified()
     .use(remarkParse)
@@ -29,7 +27,6 @@ export async function renderMarkdown(content: string, sourceName = "post") {
           const title = toString(node);
           const id = "section-" + slugger.slug(explicit?.[1] ?? title);
           node.data = { ...node.data, hProperties: { ...node.data?.hProperties, id } };
-          if (node.depth >= 2 && node.depth <= 3) toc.push({ id, title, depth: node.depth });
         } else if (node.type === "paragraph" && node.children.length === 1 && node.children[0].type === "text") {
           const anchor = node.children[0].value.match(/^\{#([a-z][a-z0-9-]*)\}$/);
           if (!anchor) return;
@@ -58,5 +55,5 @@ export async function renderMarkdown(content: string, sourceName = "post") {
   if (mathErrors.length) {
     throw new Error(sourceName + ": invalid LaTeX: " + mathErrors.map((message) => message.reason).join("; "));
   }
-  return { html: String(result), toc };
+  return { html: String(result) };
 }

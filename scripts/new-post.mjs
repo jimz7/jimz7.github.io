@@ -13,9 +13,7 @@ const title = slug.split("-").map((word) => word[0].toUpperCase() + word.slice(1
 const source = [
   "---",
   "title: " + JSON.stringify(title),
-  'description: "A one-sentence summary of this note."',
   "date: " + JSON.stringify(new Date().toISOString().slice(0, 10)),
-  'tags: ["Machine learning"]',
   "draft: true",
   "---",
   "",

@@ -7,6 +7,7 @@ import { spawnSync } from "node:child_process";
 import { renderMarkdown } from "../src/lib/markdown";
 import { parsePost, visiblePosts, getPosts } from "../src/lib/posts";
 import { createFeed } from "../src/lib/feed";
+import { createPostCitation } from "../src/lib/citation";
 
 const source = '---\ntitle: "An example"\ndescription: "A summary"\ndate: "2026-01-02"\ntags: ["Math"]\n---\n## Note\n\nA post.';
 
@@ -43,10 +44,11 @@ test("code examples and escaped currency are not typeset as math", async () => {
   assert.match(html, /<code>\$x\$<\/code>/);
 });
 
-test("duplicate headings have distinct anchors that match the table of contents", async () => {
-  const { html, toc } = await renderMarkdown("## A result\n\n### Details\n\n## A result");
-  assert.deepEqual(toc.map((entry) => entry.id), ["section-a-result", "section-details", "section-a-result-1"]);
-  for (const entry of toc) assert.ok(html.includes('id="' + entry.id + '"'));
+test("duplicate headings have distinct stable anchors", async () => {
+  const { html } = await renderMarkdown("## A result\n\n### Details\n\n## A result");
+  for (const id of ["section-a-result", "section-details", "section-a-result-1"]) {
+    assert.ok(html.includes('id="' + id + '"'));
+  }
 });
 
 test("supports footnote backlinks, tables, highlighted code, and image alt text", async () => {
@@ -58,9 +60,9 @@ test("supports footnote backlinks, tables, highlighted code, and image alt text"
 });
 
 test("explicit manuscript anchors support references without allowing raw HTML", async () => {
-  const { html, toc } = await renderMarkdown("## A result {#theorem-result}\n\n{#eq-result}\n\n$$x=1$$\n\n[Equation (1)](#section-eq-result)\n\n## Another result {#theorem-result}\n\n{#bad\" onclick=\"alert(1)}");
-  assert.deepEqual(toc.map((entry) => entry.id), ["section-theorem-result", "section-theorem-result-1"]);
-  assert.equal(toc[0].title, "A result");
+  const { html } = await renderMarkdown("## A result {#theorem-result}\n\n{#eq-result}\n\n$$x=1$$\n\n[Equation (1)](#section-eq-result)\n\n## Another result {#theorem-result}\n\n{#bad\" onclick=\"alert(1)}");
+  assert.match(html, /<h2 id="section-theorem-result">A result<\/h2>/);
+  assert.match(html, /<h2 id="section-theorem-result-1">Another result<\/h2>/);
   assert.match(html, /<span id="section-eq-result" class="blog-anchor"><\/span>/);
   assert.match(html, /href="#section-eq-result"/);
   assert.doesNotMatch(html, /id="bad"/);
@@ -109,7 +111,21 @@ test("paper links need no summary or body and reject invalid destinations", () =
   }
   assert.throws(() => parsePost(link + "Unwanted summary.", "paper"), /must not include a post body/);
   assert.throws(() => parsePost(source.replace("## Note\n\nA post.", ""), "article"), /body is empty/);
-  assert.throws(() => parsePost(source.replace('description: "A summary"\n', ""), "article"), /description must/);
+  assert.equal(parsePost(source.replace('description: "A summary"\n', ""), "article").description, "");
+});
+
+test("citations use the original publication date and canonical URL with escaped BibTeX fields", () => {
+  const post = { ...parsePost(source, "math-note"), title: "LLMs & {Proofs}: 50%", updated: "2027-03-01" };
+  const citation = createPostCitation(post, {
+    url: "https://jimz7.github.io", citationAuthor: "Zhao, Jinze", citationKeyPrefix: "zhao",
+  });
+  assert.equal(citation.url, "https://jimz7.github.io/blog/math-note/");
+  assert.equal(citation.date, "Jan 2026");
+  assert.ok(citation.bibtex.includes(String.raw`title = {{LLMs \& \{Proofs\}: 50\%}}`));
+  assert.ok(citation.bibtex.includes("author = {Zhao, Jinze}"));
+  assert.ok(citation.bibtex.includes("month = {January}"));
+  assert.ok(citation.bibtex.includes("url = {https://jimz7.github.io/blog/math-note/}"));
+  assert.doesNotMatch(citation.bibtex, /2027|localhost|127\.0\.0\.1/);
 });
 
 test("mixed RSS entries link to papers directly and keep normal article permalinks", () => {
