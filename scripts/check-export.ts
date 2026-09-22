@@ -20,7 +20,19 @@ for (const post of posts) {
   const filename = join("out", "blog", post.slug, "index.html");
   if (!slugs.has(post.slug)) {
     assert.ok(!existsSync(filename), "Unpublished page leaked: " + route);
-    for (const output of [listing, feed, sitemap]) assert.ok(!output.includes(route), "Unpublished link leaked: " + route);
+    for (const output of [listing, feed, sitemap]) {
+      assert.ok(!output.includes(route), "Unpublished link leaked: " + route);
+      if (post.externalUrl) assert.ok(!output.includes(escapeXml(post.externalUrl)), "Unpublished external link leaked: " + post.externalUrl);
+    }
+    continue;
+  }
+  if (post.externalUrl) {
+    const url = escapeXml(post.externalUrl);
+    assert.ok(!existsSync(filename), "External link generated an article page: " + route);
+    assert.ok(listing.includes('href="' + url + '"'), "Missing external title link: " + url);
+    assert.ok(feed.includes("<link>" + url + "</link>"), "Missing external RSS link: " + url);
+    assert.ok(!sitemap.includes(url), "External URL included in sitemap: " + url);
+    for (const output of [listing, feed, sitemap]) assert.ok(!output.includes(route), "External link points to an article route: " + route);
     continue;
   }
   const html = readFileSync(filename, "utf8");
@@ -30,4 +42,6 @@ for (const post of posts) {
   assert.ok(sitemap.includes(route), "Missing sitemap entry: " + route);
   assert.doesNotMatch(html, /class="katex-error"/);
 }
-console.log("Static export verified: homepage, " + published.length + " posts, RSS, sitemap, and draft exclusion.");
+console.log("Static export verified: homepage, " + published.filter((post) => !post.externalUrl).length +
+  " articles, " + published.filter((post) => post.externalUrl).length +
+  " external links, RSS, sitemap, and draft exclusion.");

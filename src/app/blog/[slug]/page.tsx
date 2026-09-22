@@ -10,10 +10,10 @@ import { renderMarkdown } from "@/lib/markdown";
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  const params = getPosts().map((post) => ({ slug: post.slug }));
+  const params = getPosts().filter((post) => !post.externalUrl).map((post) => ({ slug: post.slug }));
   // Next 15 static export rejects an empty dynamic route list. This reserved,
   // invalid author slug renders notFound(), so a notebook with only drafts
-  // can still be built without exporting any draft.
+  // or external links can still be built without exporting article pages.
   return params.length ? params : [{ slug: "__empty__" }];
 }
 
@@ -42,7 +42,7 @@ export default async function PostPage({ params }: Props) {
   const post = getPost((await params).slug);
   if (!post) notFound();
   const { html, toc } = await renderMarkdown(post.content, post.slug);
-  const posts = getPosts();
+  const posts = getPosts().filter((entry) => !entry.externalUrl);
   const index = posts.findIndex((entry) => entry.slug === post.slug);
   const newer = posts[index - 1];
   const older = posts[index + 1];

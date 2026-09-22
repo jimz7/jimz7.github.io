@@ -30,7 +30,18 @@ export function parsePost(source: string, slug: string): Post {
     return value;
   };
   const title = requiredText("title");
-  const description = requiredText("description");
+  const externalUrl = data.externalUrl === undefined ? undefined : requiredText("externalUrl");
+  if (externalUrl) {
+    try {
+      const url = new URL(externalUrl);
+      if (!["http:", "https:"].includes(url.protocol) || url.username || url.password) {
+        fail("externalUrl must be an absolute HTTP or HTTPS URL without credentials.");
+      }
+    } catch {
+      fail("externalUrl must be an absolute HTTP or HTTPS URL without credentials.");
+    }
+  }
+  const description = externalUrl && data.description === undefined ? "" : requiredText("description");
   const date = dateValue("date");
   const updated = data.updated === undefined ? undefined : dateValue("updated");
   if (updated && updated < date) fail("updated must be on or after date.");
@@ -39,12 +50,14 @@ export function parsePost(source: string, slug: string): Post {
   if (!Array.isArray(tags) || tags.some((tag) => typeof tag !== "string" || !tag.trim())) {
     return fail("tags must be a list of non-empty strings.");
   }
-  if (!content.trim()) fail("The post body is empty.");
+  if (externalUrl && content.trim()) fail("Link entries must not include a post body.");
+  if (!externalUrl && !content.trim()) fail("The post body is empty.");
   return {
     slug, title, description, date, updated,
     tags: [...new Set((tags as string[]).map((tag) => tag.trim()))],
     draft: data.draft === true,
-    readingMinutes: Math.max(1, Math.ceil(content.trim().split(/\s+/u).length / 200)),
+    externalUrl,
+    readingMinutes: externalUrl ? 0 : Math.max(1, Math.ceil(content.trim().split(/\s+/u).length / 200)),
     content,
   };
 }
@@ -65,5 +78,5 @@ export function getPosts(includeUnpublished = process.env.NODE_ENV === "developm
 
 export function getPost(slug: string) {
   // Look up known files rather than joining an untrusted slug to a filesystem path.
-  return getPosts().find((post) => post.slug === slug);
+  return getPosts().find((post) => !post.externalUrl && post.slug === slug);
 }

@@ -78,11 +78,39 @@ test("drafts and future dates are excluded; published notes are sorted newest fi
     { ...post, slug: "draft", draft: true },
     { ...post, slug: "future", date: "2099-01-01" },
     { ...post, slug: "new", date: "2026-01-03" },
+    { ...post, slug: "draft-link", externalUrl: "https://arxiv.org/abs/2609.11784", draft: true },
+    { ...post, slug: "future-link", externalUrl: "https://arxiv.org/abs/2609.11795", date: "2099-01-01" },
     post,
   ];
   assert.deepEqual(visiblePosts(posts, false, "2026-01-03").map((entry) => entry.slug), ["new", "old"]);
-  assert.equal(visiblePosts(posts, true).length, 4);
+  assert.equal(visiblePosts(posts, true).length, 6);
   assert.equal(visiblePosts([], false).length, 0);
+});
+
+test("paper links need no summary or body and reject invalid destinations", () => {
+  const link = '---\ntitle: "A paper"\ndate: "2026-01-02"\nexternalUrl: "https://arxiv.org/abs/2609.11784"\n---\n';
+  const post = parsePost(link, "paper");
+  assert.equal(post.externalUrl, "https://arxiv.org/abs/2609.11784");
+  assert.equal(post.description, "");
+  assert.equal(post.content.trim(), "");
+  assert.equal(post.readingMinutes, 0);
+  for (const url of ["javascript:alert(1)", "data:text/html,test", "/relative", "https://user:password@example.com"]) {
+    assert.throws(() => parsePost(link.replace(post.externalUrl, url), "paper"), /externalUrl must/);
+  }
+  assert.throws(() => parsePost(link + "Unwanted summary.", "paper"), /must not include a post body/);
+  assert.throws(() => parsePost(source.replace("## Note\n\nA post.", ""), "article"), /body is empty/);
+  assert.throws(() => parsePost(source.replace('description: "A summary"\n', ""), "article"), /description must/);
+});
+
+test("mixed RSS entries link to papers directly and keep normal article permalinks", () => {
+  const article = parsePost(source, "article");
+  const paper = parsePost('---\ntitle: "A paper"\ndate: "2026-01-02"\nexternalUrl: "https://example.org/paper?a=1&b=2"\n---', "paper");
+  const xml = createFeed([article, paper], { url: "https://example.com", title: "Notes", description: "Research" });
+  assert.match(xml, /<link>https:\/\/example.com\/blog\/article\/<\/link>/);
+  assert.match(xml, /<link>https:\/\/example.org\/paper\?a=1&amp;b=2<\/link>/);
+  assert.match(xml, /<guid isPermaLink="true">https:\/\/example.org\/paper\?a=1&amp;b=2<\/guid>/);
+  assert.doesNotMatch(xml, /\/blog\/paper\//);
+  assert.doesNotMatch(xml, /<description><\/description>/);
 });
 
 test("RSS escapes text and uses stable permalinks", () => {

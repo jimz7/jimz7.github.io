@@ -6,6 +6,11 @@ as a static website for [GitHub Pages](https://jimz7.github.io/).
 The homepage data stays in `src/data/`. Blog posts live in `content/blog/`;
 no React code is needed to write a post.
 
+The Publications section lists accepted conference and workshop papers in
+`src/data/publication.ts`, using the accepted venue's year. Research preprints
+appear alongside articles in the blog as direct title links to the papers.
+Their dates follow the original arXiv submissions.
+
 ## Quick start
 
 Use Node.js 22 or newer (the GitHub Actions workflow uses Node 22).
@@ -62,6 +67,27 @@ Duplicate headings get `-1`, `-2`, and so on.
 The included [sample post](content/blog/writing-with-latex.md) is both an
 authoring reference and a working rendering example. You can remove it or
 set `draft: true` when you have your own posts.
+
+### Add a paper link
+
+Use the same folder for preprints that should link directly to the original
+paper. An `externalUrl` entry contains front matter only:
+
+```yaml
+---
+title: "Paper title"
+date: "2026-09-10"
+externalUrl: "https://arxiv.org/abs/2609.11784"
+draft: false
+---
+```
+
+These entries display a date and clickable title, with no summary, reading time,
+or article page. The URL must be an absolute HTTP or HTTPS address. Their RSS
+entries link directly to the paper, and they do not create sitemap entries.
+Draft and future-date rules apply to both articles and paper links.
+Omit `externalUrl` to write a regular Markdown and LaTeX article with a
+description and body.
 
 ## LaTeX mathematics
 
@@ -168,8 +194,8 @@ Long equations, code blocks, and tables scroll horizontally on narrow screens.
 - `src/components/site-navigation.tsx`: shared About / Blog navigation.
 - `src/app/blog/blog.css`: notebook typography, colors, and responsive layout.
 
-`/blog/` is a simple list of posts, newest first, with titles, dates, reading
-times, and short descriptions. Article pages include the author, tags, a table
+`/blog/` is a simple list of articles and paper links, newest first. Only
+articles show reading times and descriptions. Article pages include the author, tags, a table
 of contents, and older/newer navigation.
 `/feed.xml` is a summary RSS feed. `/sitemap.xml` and `/robots.txt` are generated.
 

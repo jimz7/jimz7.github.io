@@ -8,7 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: blogConfig.url + "/" },
     { url: blogConfig.url + "/blog/" },
-    ...getPosts(false).map((post) => ({
+    ...getPosts(false).filter((post) => !post.externalUrl).map((post) => ({
       url: blogConfig.url + "/blog/" + post.slug + "/",
       lastModified: post.updated ?? post.date,
     })),

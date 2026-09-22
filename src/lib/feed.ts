@@ -14,9 +14,10 @@ export function createFeed(posts: PostSummary[], config: { url: string; title: s
     "<description>" + escapeXml(config.description) + "</description><language>en</language>" +
     '<atom:link href="' + escapeXml(config.url + "/feed.xml") + '" rel="self" type="application/rss+xml"/>' +
     posts.map((post) => {
-      const url = escapeXml(config.url + "/blog/" + post.slug + "/");
+      const url = escapeXml(post.externalUrl ?? config.url + "/blog/" + post.slug + "/");
       return "<item><title>" + escapeXml(post.title) + "</title><link>" + url + "</link>" +
-        '<guid isPermaLink="true">' + url + "</guid><description>" + escapeXml(post.description) + "</description>" +
+        '<guid isPermaLink="true">' + url + "</guid>" +
+        (post.description ? "<description>" + escapeXml(post.description) + "</description>" : "") +
         "<pubDate>" + new Date(post.date + "T00:00:00Z").toUTCString() + "</pubDate>" +
         post.tags.map((tag) => "<category>" + escapeXml(tag) + "</category>").join("") + "</item>";
     }).join("") + "</channel></rss>";
