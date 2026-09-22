@@ -22,7 +22,7 @@ export const aboutMe: AboutMe = {
   title: "PhD student",
   institution: "UC San Diego",
   description:
-  "I’m a PhD student in the Department of Electrical and Computer Engineering at UC San Diego. I earned my M.S. in Electrical and Computer Engineering at the University of Texas at Austin, where I also received a B.S. in Electrical and Computer Engineering (with Honors) and a B.S. in Mathematics.<br><br>My research focuses on machine learning, especially understanding the theoretical foundations and improving the generalization of models, such as diffusion models and mixture-of-experts models.",
+  "I’m a PhD student in the Department of Electrical and Computer Engineering at UC San Diego. I earned an M.S. and a B.S. with Honors in ECE, along with a B.S. in Mathematics, from UT Austin.<br><br>My research focuses on machine learning, especially understanding the theoretical foundations and improving the generalization of models, such as diffusion models and mixture-of-experts models.",
   email: "jiz419@ucsd.edu",
   // imageUrl:
   //   "/images/profile.png",
