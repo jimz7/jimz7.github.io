@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { aboutMe } from "@/data/aboutme";
 import { blogConfig } from "@/data/blog";
 import { getPost, getPosts } from "@/lib/posts";
-import { formatPostDate } from "@/lib/blog-types";
 import { renderMarkdown } from "@/lib/markdown";
 import { PostCitation } from "@/components/post-citation";
 
@@ -55,12 +54,10 @@ export default async function PostPage({ params }: Props) {
           <h1>{post.title}</h1>
           <div className="blog-meta">
             <span>{aboutMe.name}</span><span>·</span>
-            <time dateTime={post.date}>{formatPostDate(post.date)}</time><span>·</span>
             <span>{post.readingMinutes} min read</span>
           </div>
-          {post.updated && <p className="blog-meta">Updated {formatPostDate(post.updated)}</p>}
           {post.draft && <p className="blog-draft">Draft preview — this post is excluded from the published site.</p>}
-          {post.date > new Date().toISOString().slice(0, 10) && <p className="blog-draft">Future-dated preview — publish with a new build on or after {post.date}.</p>}
+          {post.date > new Date().toISOString().slice(0, 10) && <p className="blog-draft">Future-dated preview — this post is not published yet.</p>}
         </header>
         <div className="blog-prose" dangerouslySetInnerHTML={{ __html: html }} />
         <PostCitation post={post} />
