@@ -3,7 +3,7 @@ import { Geist, Geist_Mono, Noto_Serif, PT_Serif } from "next/font/google";
 import "./globals.css";
 import { aboutMe } from "@/data/aboutme";
 import { customMetadata } from "@/data/title-description";
-import { blogConfig } from "@/data/blog";
+import { siteConfig } from "@/data/site";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -27,10 +27,10 @@ const ptSerif = PT_Serif({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(blogConfig.url),
+  metadataBase: new URL(siteConfig.url),
   title: customMetadata.title || aboutMe.name,
   description: customMetadata.description || aboutMe.description,
-  alternates: { types: { "application/rss+xml": "/feed.xml" } },
+  alternates: { types: { "application/rss+xml": siteConfig.blogUrl + "/feed.xml" } },
   icons: {
     icon: "/favicon.ico",
   },
@@ -56,7 +56,7 @@ export default function RootLayout({
               )}
             </div>
             <p>
-              <a href="/feed.xml">RSS</a>
+              <a href={siteConfig.blogUrl + "/feed.xml"}>RSS</a>
               {" · "}Built with{" "}
               <a href="https://github.com/tovacinni/research-website-template">research-website-template</a>
             </p>

@@ -5,30 +5,15 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "lint": "eslint src scripts tests",
+    "lint": "eslint src scripts",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test tests/*.test.ts",
-    "check:export": "tsx scripts/check-export.ts",
-    "new-post": "node scripts/new-post.mjs"
+    "check:export": "tsx scripts/check-export.ts"
   },
   "dependencies": {
-    "github-slugger": "^2.0.0",
-    "gray-matter": "^4.0.3",
-    "katex": "^0.16.0",
     "lucide-react": "^0.469.0",
-    "mdast-util-to-string": "^4.0.0",
     "next": "^15.5.25",
     "react": "^19.3.0",
-    "react-dom": "^19.3.0",
-    "rehype-highlight": "^7.0.2",
-    "rehype-katex": "^7.0.1",
-    "rehype-stringify": "^10.0.1",
-    "remark-gfm": "^4.0.1",
-    "remark-math": "^6.0.0",
-    "remark-parse": "^11.0.0",
-    "remark-rehype": "^11.1.2",
-    "unified": "^11.0.5",
-    "unist-util-visit": "^5.1.0"
+    "react-dom": "^19.3.0"
   },
   "overrides": {
     "next": {
@@ -40,7 +25,6 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@types/mdast": "^4.0.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
