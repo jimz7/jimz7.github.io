@@ -1,3 +1,5 @@
+import { siteConfig } from "./site";
+
 export interface AboutMe {
   name: string;
   title: string;
@@ -30,7 +32,7 @@ export const aboutMe: AboutMe = {
   githubUsername: "jimz7",
   linkedinUsername: "jinze-zhao",
   // twitterUsername: "janesmith",
-  blogUrl: "/blog/",
+  blogUrl: siteConfig.blogUrl + "/",
   // cvUrl: "https://",
   // institutionUrl: "https://www.stanford.edu",
   // altName: "",

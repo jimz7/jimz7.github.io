@@ -1,47 +1,28 @@
 import assert from "node:assert/strict";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import { parsePost, visiblePosts } from "../src/lib/posts";
-import { escapeXml } from "../src/lib/feed";
+import { siteConfig } from "../src/data/site";
 
 const read = (file: string) => readFileSync(join("out", file), "utf8");
-const posts = readdirSync("content/blog").filter((file) => file.endsWith(".md"))
-  .map((file) => parsePost(readFileSync(join("content/blog", file), "utf8"), file.slice(0, -3)));
-const published = visiblePosts(posts);
-const slugs = new Set(published.map((post) => post.slug));
-const listing = read("blog/index.html");
-const feed = read("feed.xml");
-const sitemap = read("sitemap.xml");
-assert.ok(existsSync("out/.nojekyll"));
-assert.match(read("index.html"), /href="\/blog\/"/);
+const homepage = read("index.html");
+assert.ok(homepage.includes('href="' + siteConfig.blogUrl + '/"'), "Missing external Blog link");
+assert.ok(homepage.includes("Publications"));
+assert.ok(homepage.includes("jiz419@ucsd.edu"));
 assert.match(read("robots.txt"), /sitemap\.xml/i);
-for (const post of posts) {
-  const route = "/blog/" + post.slug + "/";
-  const filename = join("out", "blog", post.slug, "index.html");
-  if (!slugs.has(post.slug)) {
-    assert.ok(!existsSync(filename), "Unpublished page leaked: " + route);
-    for (const output of [listing, feed, sitemap]) {
-      assert.ok(!output.includes(route), "Unpublished link leaked: " + route);
-      if (post.externalUrl) assert.ok(!output.includes(escapeXml(post.externalUrl)), "Unpublished external link leaked: " + post.externalUrl);
-    }
-    continue;
-  }
-  if (post.externalUrl) {
-    const url = escapeXml(post.externalUrl);
-    assert.ok(!existsSync(filename), "External link generated an article page: " + route);
-    assert.ok(listing.includes('href="' + url + '"'), "Missing external title link: " + url);
-    assert.ok(feed.includes("<link>" + url + "</link>"), "Missing external RSS link: " + url);
-    assert.ok(!sitemap.includes(url), "External URL included in sitemap: " + url);
-    for (const output of [listing, feed, sitemap]) assert.ok(!output.includes(route), "External link points to an article route: " + route);
-    continue;
-  }
-  const html = readFileSync(filename, "utf8");
-  assert.ok(html.includes(escapeXml(post.title).replaceAll("&apos;", "&#x27;")) || html.includes(post.title), "Missing title: " + route);
-  assert.ok(listing.includes(route), "Missing index link: " + route);
-  assert.ok(feed.includes(route), "Missing RSS entry: " + route);
-  assert.ok(sitemap.includes(route), "Missing sitemap entry: " + route);
-  assert.doesNotMatch(html, /class="katex-error"/);
+assert.ok(existsSync("out/.nojekyll"));
+assert.ok(read("feed.xml").includes(siteConfig.blogUrl + "/feed.xml"));
+assert.ok(!read("sitemap.xml").includes("/blog/"), "Blog articles remain in personal sitemap");
+const legacyRoutes = ["", ...readdirSync("public/blog", { withFileTypes: true }).filter((entry) => entry.isDirectory()).map((entry) => entry.name)];
+assert.equal(legacyRoutes.length, 5);
+for (const slug of legacyRoutes) {
+  const page = read(join("blog", slug, "index.html"));
+  const target = siteConfig.blogUrl + "/" + (slug ? slug + "/" : "");
+  assert.ok(page.includes('rel="canonical" href="' + target + '"'));
+  assert.ok(page.includes('http-equiv="refresh" content="0;url=' + target + '"'));
+  assert.ok(page.includes("window.location.search + window.location.hash"));
+  assert.doesNotMatch(page, /class="katex"|blog-prose/);
 }
-console.log("Static export verified: homepage, " + published.filter((post) => !post.externalUrl).length +
-  " articles, " + published.filter((post) => post.externalUrl).length +
-  " external links, RSS, sitemap, and draft exclusion.");
+for (const path of ["content", "docs", "src/lib/posts.ts", "src/app/blog"]) {
+  assert.ok(!existsSync(path), "Blog writing still lives in personal repository: " + path);
+}
+console.log("Personal site, external Blog link, RSS migration, and five legacy redirects verified.");
