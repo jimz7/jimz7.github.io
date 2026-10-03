@@ -1,4 +1,4 @@
-# Jinze Zhao’s personal website
+# Personal website
 
 Public website: https://jimz7.github.io/
 
