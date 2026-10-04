@@ -4,7 +4,13 @@ Public website: https://jimz7.github.io/
 
 This repository maintains the About page and accepted publications. The research blog is an independent project at https://jimz7-blog.pages.dev/, maintained in the private `jimz7/blog` repository and deployed with Cloudflare Pages. Edit and publish all future articles there; blog commits do not affect this website.
 
-## Development
+## Blog visibility
+
+`blog-visibility.json` controls the Blog/RSS links, old blog routes, and historical figure exports. Set `"public": false` and deploy to hide them; set it to `true` and deploy to restore. Source redirects and figures are preserved. Set the same switch in the private blog repository to hide or restore the actual articles. Both repositories must be deployed; hiding navigation alone does not protect direct article URLs.
+
+The private blog also uses Cloudflare Access to restrict historical deployment URLs. Keep that preview restriction enabled. This switch cannot remove previously published Git history, copies, or external paper websites.
+
+## Local development
 
 Use Node 22 or newer. Run `npm ci`, then `npm run dev`. Run `npm run lint`, `npm run build`, and `npm run check:export` before publishing. Changes merged into `main` are deployed to GitHub Pages.
 

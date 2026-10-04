@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: customMetadata.title || aboutMe.name,
   description: customMetadata.description || aboutMe.description,
-  alternates: { types: { "application/rss+xml": siteConfig.blogUrl + "/feed.xml" } },
+  alternates: siteConfig.blogVisible ? { types: { "application/rss+xml": siteConfig.blogUrl + "/feed.xml" } } : undefined,
   icons: {
     icon: "/favicon.ico",
   },
@@ -56,8 +56,8 @@ export default function RootLayout({
               )}
             </div>
             <p>
-              <a href={siteConfig.blogUrl + "/feed.xml"}>RSS</a>
-              {" · "}Built with{" "}
+              {siteConfig.blogVisible && <><a href={siteConfig.blogUrl + "/feed.xml"}>RSS</a>{" · "}</>}
+              Built with{" "}
               <a href="https://github.com/tovacinni/research-website-template">research-website-template</a>
             </p>
           </div>
