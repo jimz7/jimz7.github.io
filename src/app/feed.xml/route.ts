@@ -5,6 +5,10 @@ export const dynamic = "force-static";
 // GitHub Pages cannot issue an HTTP redirect for RSS. Keep a migration notice
 // at the old feed URL, with the new feed location for readers that support it.
 export function GET() {
+  if (!siteConfig.blogVisible) return new Response(`<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel><title>Blog temporarily unavailable</title><link>${siteConfig.url}/</link><description>Please check back later.</description></channel></rss>`, {
+    headers: { "Content-Type": "application/rss+xml; charset=utf-8" },
+  });
   const url = siteConfig.blogUrl;
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
